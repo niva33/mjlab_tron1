@@ -18,6 +18,6 @@ from mjlab.asset_zoo.robots.unitree_go1.go1_constants import (
 )
 
 from mjlab.asset_zoo.robots.limx_tron1.limx_tron1_constants import (
-    get_limx_tron1_robot_cfg as get_limx_tron1_robot_cfg,
-    LIMX_TRON1_ACTION_SCALE as LIMX_TRON1_ACTION_SCALE, 
+  get_limx_tron1_robot_cfg as get_limx_tron1_robot_cfg,
+  LIMX_TRON1_ACTION_SCALE as LIMX_TRON1_ACTION_SCALE,
 )

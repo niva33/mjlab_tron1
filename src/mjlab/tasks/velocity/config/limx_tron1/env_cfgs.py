@@ -9,6 +9,7 @@ from mjlab.envs import mdp as envs_mdp
 from mjlab.envs.mdp.actions import JointPositionActionCfg
 from mjlab.managers.event_manager import EventTermCfg
 from mjlab.managers.reward_manager import RewardTermCfg
+from mjlab.managers.termination_manager import TerminationTermCfg
 from mjlab.sensor import (
   ContactMatch,
   ContactSensorCfg,
@@ -73,9 +74,28 @@ def limx_tron1_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     num_slots=1,
     history_length=4,
   )
+  non_foot_geom_names = (
+    "base_collision",
+    "abad_L_collision",
+    "abad_R_collision",
+    "hip_L_collision",
+    "hip_R_collision",
+    "knee_L_collision",
+    "knee_R_collision",
+  )
+  non_foot_ground_cfg = ContactSensorCfg(
+    name="non_foot_ground_touch",
+    primary=ContactMatch(mode="geom", pattern=non_foot_geom_names, entity="robot"),
+    secondary=ContactMatch(mode="body", pattern="terrain"),
+    fields=("found", "force"),
+    reduce="none",
+    num_slots=1,
+    history_length=4,
+  )
   cfg.scene.sensors = (cfg.scene.sensors or ()) + (
     feet_ground_cfg,
     self_collision_cfg,
+    non_foot_ground_cfg,
   )
 
   if cfg.scene.terrain is not None and cfg.scene.terrain.terrain_generator is not None:
@@ -97,16 +117,16 @@ def limx_tron1_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   cfg.rewards["pose"].params["std_walking"] = {
     "abad_L_Joint": 0.05,
     "abad_R_Joint": 0.05,
-    "hip_L_Joint":0.3,
-    "hip_R_Joint":0.3,
+    "hip_L_Joint": 0.3,
+    "hip_R_Joint": 0.3,
     "knee_L_Joint": 0.3,
     "knee_R_Joint": 0.3,
   }
   cfg.rewards["pose"].params["std_running"] = {
     "abad_L_Joint": 0.05,
     "abad_R_Joint": 0.05,
-    "hip_L_Joint":0.5,
-    "hip_R_Joint":0.5,
+    "hip_L_Joint": 0.5,
+    "hip_R_Joint": 0.5,
     "knee_L_Joint": 0.3,
     "knee_R_Joint": 0.3,
   }
@@ -125,6 +145,11 @@ def limx_tron1_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     weight=-1.0,
     params={"sensor_name": self_collision_cfg.name, "force_threshold": 10.0},
   )
+  cfg.terminations["illegal_contact"] = TerminationTermCfg(
+    func=mdp.illegal_contact,
+    params={"sensor_name": non_foot_ground_cfg.name},
+  )
+
   cfg.curriculum.pop("command_vel", None)
   cfg.events.pop("push", None)
   twist_cmd = cfg.commands["twist"]

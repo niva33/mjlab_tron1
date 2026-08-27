@@ -26,15 +26,13 @@ def get_spec() -> mujoco.MjSpec:
 ##
 # Actuator config.
 ##
-MOTOR_ARMATURE = 0.1 # kg*m2
-MOTOR_EFFORT_LIMIT = 80.0 #Nm
-MOTOR_VELOCITY_LIMIT = 15.0 #rad/s
+MOTOR_ARMATURE = 0.1  # kg*m2
+MOTOR_EFFORT_LIMIT = 80.0  # Nm
+MOTOR_VELOCITY_LIMIT = 15.0  # rad/s
 
 ACTUATOR = BuiltinPositionActuatorCfg(
-  target_names_expr=(
-    ".*_Joint",
-  ),
-  armature= MOTOR_ARMATURE,
+  target_names_expr=(".*_Joint",),
+  armature=MOTOR_ARMATURE,
   effort_limit=MOTOR_EFFORT_LIMIT,
   frictionloss=0.1,
   viscous_damping=0.01,
@@ -75,9 +73,7 @@ FULL_COLLISION = CollisionCfg(
 ##
 
 LIMX_TRON1_ARTICULATION = EntityArticulationInfoCfg(
-  actuators=(
-    ACTUATOR,
-  ),
+  actuators=(ACTUATOR,),
   soft_joint_pos_limit_factor=0.9,
 )
 
