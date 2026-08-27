@@ -93,6 +93,23 @@ def limx_tron1_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
 
   cfg.events["foot_friction"].params["asset_cfg"].geom_names = geom_names
   cfg.events["base_com"].params["asset_cfg"].body_names = ("base_Link",)
+  cfg.rewards["pose"].params["std_standing"] = {".*": 0.05}
+  cfg.rewards["pose"].params["std_walking"] = {
+    "abad_L_Joint": 0.05,
+    "abad_R_Joint": 0.05,
+    "hip_L_Joint":0.3,
+    "hip_R_Joint":0.3,
+    "knee_L_Joint": 0.3,
+    "knee_R_Joint": 0.3,
+  }
+  cfg.rewards["pose"].params["std_running"] = {
+    "abad_L_Joint": 0.05,
+    "abad_R_Joint": 0.05,
+    "hip_L_Joint":0.5,
+    "hip_R_Joint":0.5,
+    "knee_L_Joint": 0.3,
+    "knee_R_Joint": 0.3,
+  }
 
   cfg.rewards["upright"].params["asset_cfg"].body_names = ("base_Link",)
   cfg.rewards["body_ang_vel"].params["asset_cfg"].body_names = ("base_Link",)
@@ -108,6 +125,13 @@ def limx_tron1_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     weight=-1.0,
     params={"sensor_name": self_collision_cfg.name, "force_threshold": 10.0},
   )
+  cfg.curriculum.pop("command_vel", None)
+  cfg.events.pop("push", None)
+  twist_cmd = cfg.commands["twist"]
+  assert isinstance(twist_cmd, UniformVelocityCommandCfg)
+  twist_cmd.ranges.lin_vel_x = (-0.5, 0.5)
+  twist_cmd.ranges.lin_vel_x = (-0.0, 0.0)
+  twist_cmd.ranges.ang_vel_z = (-0.5, 0.5)
 
   # Apply play mode overrides.
   if play:
@@ -165,5 +189,4 @@ def limx_tron1_flat_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
     assert isinstance(twist_cmd, UniformVelocityCommandCfg)
     twist_cmd.ranges.lin_vel_x = (-1.5, 2.0)
     twist_cmd.ranges.ang_vel_z = (-0.7, 0.7)
-  cfg.rewards.pop("pose", None)
   return cfg
