@@ -5,6 +5,12 @@ Changelog
 Upcoming version (not yet released)
 -----------------------------------
 
+Added
+^^^^^
+
+- Added flat and rough terrain velocity tracking tasks for the bipedal 12 DOF
+  robot, including foot sensors and PPO training configurations.
+
 Changed
 ^^^^^^^
 

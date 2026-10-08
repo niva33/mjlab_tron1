@@ -26,28 +26,28 @@ def get_spec() -> mujoco.MjSpec:
 ##
 # Actuator config.
 ##
-AK7010_ARMATURE = 0.1   # kg*m2
+AK7010_ARMATURE = 0.1  # kg*m2
 AK7010_MAX_VEL = 10.0  # rad/s
-AK7010_MAX_TORQUE = 20.0 # Nm
+AK7010_MAX_TORQUE = 20.0  # Nm
 
 AK109_ARMATURE = 0.1  # kg*m2
 AK109_MAX_VEL = 10.0  # rad/s
-AK109_MAX_TORQUE = 50.0 # Nm
+AK109_MAX_TORQUE = 50.0  # Nm
 
 AK606_ARMATURE = 0.1  # kg*m2
 AK606_MAX_VEL = 18.0  # rad/s
-AK606_MAX_TORQUE = 8.0 * 2 # Nm
+AK606_MAX_TORQUE = 8.0 * 2  # Nm
 
 NATURAL_FREQ = 10 * 2.0 * 3.1415926535  # 10Hz
 DAMPING_RATIO = 2.0
 
-STIFFNESS_HIP_PITCH_ROLL_KNEE = NATURAL_FREQ ** 2 * AK109_ARMATURE
+STIFFNESS_HIP_PITCH_ROLL_KNEE = NATURAL_FREQ**2 * AK109_ARMATURE
 DAMPING_HIP_PITCH_ROLL_KNEE = 2.0 * DAMPING_RATIO * NATURAL_FREQ * AK109_ARMATURE
 
-STIFFNESS_HIP_YAW = NATURAL_FREQ ** 2 * AK7010_ARMATURE
+STIFFNESS_HIP_YAW = NATURAL_FREQ**2 * AK7010_ARMATURE
 DAMPING_HIP_YAW = 2.0 * DAMPING_RATIO * NATURAL_FREQ * AK7010_ARMATURE
 
-STIFFNESS_ANKLE = NATURAL_FREQ ** 2 * AK606_ARMATURE
+STIFFNESS_ANKLE = NATURAL_FREQ**2 * AK606_ARMATURE
 DAMPING_ANKLE = 2.0 * DAMPING_RATIO * NATURAL_FREQ * AK606_ARMATURE
 
 ACTUATOR_NAMES = {
@@ -67,7 +67,7 @@ ACTUATOR_AK109 = BuiltinPositionActuatorCfg(
 )
 
 ACTUATOR_AK7010 = BuiltinPositionActuatorCfg(
-  target_names_expr=(".*_hip_yaw_joint",),  
+  target_names_expr=(".*_hip_yaw_joint",),
   stiffness=STIFFNESS_HIP_YAW,
   damping=DAMPING_HIP_YAW,
   effort_limit=AK7010_MAX_TORQUE,
@@ -94,7 +94,7 @@ ACTUATORS = (
 HOME_KEYFRAME = EntityCfg.InitialStateCfg(
   pos=(0, 0, 0.87),
   joint_pos={
-    ".*_Joint": 0.0,
+    ".*_joint": 0.0,
   },
   joint_vel={".*": 0.0},
 )
@@ -107,12 +107,12 @@ HOME_KEYFRAME = EntityCfg.InitialStateCfg(
 # Self-collisions are given condim=1 while foot collisions
 # are given condim=3.
 FULL_COLLISION = CollisionCfg(
-  geom_names_expr=(".*_collision",),
+  geom_names_expr=(".*_collision.*",),
   contype=1,
   conaffinity=1,
-  condim={".*_collision": 1},
-  priority={".*_collision": 1},
-  friction={".*_collision": (0.6,)},
+  condim={".*_ankle_roll_joint_collision_.*": 3, ".*": 1},
+  priority={".*": 1},
+  friction={".*": (0.6,)},
 )
 
 ##
@@ -126,7 +126,7 @@ BIPEDAL_12DOF_ARTICULATION = EntityArticulationInfoCfg(
 
 
 def get_bipedal_12dof_robot_cfg() -> EntityCfg:
-  """Get a fresh G1 robot configuration instance.
+  """Get a fresh bipedal 12 DOF robot configuration instance.
 
   Returns a new EntityCfg instance each time to avoid mutation issues when
   the config is shared across multiple places.

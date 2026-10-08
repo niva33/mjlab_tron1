@@ -61,6 +61,7 @@
                 <body name="left_ankle_roll_link" pos="0 0 0" euler="0 0 0">
                   <inertial pos="29.106E-3 0 -30.483E-3" mass="383.542E-3" fullinertia="1.546E-4 8.770E-4 9.434E-4 -9.97E-9 50230.908E-9 40.36E-9" />
                   <joint name="left_ankle_roll_joint" axis="1 0 0" pos="0 0 0" range="-15 15"/>
+                  <site name="left_foot" pos="0.04 0 -0.049" size="0.01"/>
                   <geom type="mesh" name="Left_Foot" friction="5.0 0.1 0.1" class="bipedal_visual" mesh="left_ankle_pitch_link" />
                   <geom name="left_ankle_roll_joint_collision_1" class="bipedal_collision" type="capsule" size="0.015 0.08" pos="0.04 0 -0.034" euler="0 90 0" />
                   <geom name="left_ankle_roll_joint_collision_2" class="bipedal_collision" type="capsule" size="0.009 0.02" pos="0.09 0.025 -0.034" euler="0 90 0" />
@@ -99,6 +100,7 @@
                 <body name="right_ankle_roll_link" pos="0 0 0" euler="0 0 0">
                   <inertial pos="29.106E-3 0 -30.483E-3" mass="383.542E-3" fullinertia="1.546E-4 8.770E-4 9.434E-4 -9.97E-9 50230.908E-9 40.36E-9" />
                   <joint name="right_ankle_roll_joint" axis="1 0 0" pos="0 0 0" range="-15 15"/>
+                  <site name="right_foot" pos="0.04 0 -0.049" size="0.01"/>
                   <geom type="mesh" name="Right_Foot" friction="5.0 0.1 0.1" class="bipedal_visual" mesh="right_ankle_pitch_link" />
                   <geom name="right_ankle_roll_joint_collision_1" class="bipedal_collision" type="capsule" size="0.015 0.08" pos="0.04 0 -0.034" euler="0 90 0" />
                   <geom name="right_ankle_roll_joint_collision_2" class="bipedal_collision" type="capsule" size="0.009 0.02" pos="0.09 0.025 -0.034" euler="0 90 0" />

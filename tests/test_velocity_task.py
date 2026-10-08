@@ -3,6 +3,7 @@
 import pytest
 
 from mjlab.asset_zoo.robots import G1_ACTION_SCALE, GO1_ACTION_SCALE
+from mjlab.entity import Entity
 from mjlab.envs.mdp.actions import JointPositionActionCfg
 from mjlab.tasks.registry import list_tasks, load_env_cfg
 from mjlab.tasks.velocity.mdp import UniformVelocityCommandCfg
@@ -197,3 +198,37 @@ def test_go1_velocity_has_correct_action_scale(
     assert joint_pos_action.scale == GO1_ACTION_SCALE, (
       f"Task {task_id} action scale mismatch, expected GO1_ACTION_SCALE"
     )
+
+
+@pytest.mark.parametrize("terrain", ["Flat", "Rough"])
+@pytest.mark.parametrize("play", [False, True])
+def test_bipedal_velocity_model_references(terrain: str, play: bool) -> None:
+  """Bipedal task references must resolve against the actual robot model."""
+  task_id = f"Mjlab-Velocity-{terrain}-Bipedal-12dof"
+  assert task_id in list_tasks()
+  cfg = load_env_cfg(task_id, play=play)
+  robot = Entity(cfg.scene.entities["robot"])
+  model = robot.spec.compile()
+  assert model.nu == 12
+  assert model.nq == 19
+  for side in ("left", "right"):
+    assert model.site(f"{side}_foot").id >= 0
+    for index in range(1, 6):
+      geom = model.geom(f"{side}_ankle_roll_joint_collision_{index}")
+      assert geom.contype == 1
+      assert geom.conaffinity == 1
+      assert geom.condim == 3
+  for name in ("upright", "body_ang_vel"):
+    for body in cfg.rewards[name].params["asset_cfg"].body_names:
+      assert model.body(body).id >= 0
+  for name in cfg.events["foot_friction"].params["asset_cfg"].geom_names:
+    assert model.geom(name).id >= 0
+  assert model.geom("link0_torso_collision_1").contype == 1
+  action = cfg.actions["joint_pos"]
+  assert isinstance(action, JointPositionActionCfg)
+  assert isinstance(action.scale, dict)
+  assert len(action.scale) == 6
+  command = cfg.commands["twist"]
+  assert isinstance(command, UniformVelocityCommandCfg)
+  assert command.ranges.lin_vel_x[1] > 0
+  assert cfg.observations["actor"].enable_corruption is (not play)
