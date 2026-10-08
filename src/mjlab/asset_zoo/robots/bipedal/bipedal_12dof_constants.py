@@ -92,7 +92,7 @@ ACTUATORS = (
 ##
 
 HOME_KEYFRAME = EntityCfg.InitialStateCfg(
-  pos=(0, 0, 0.8),
+  pos=(0, 0, 0.87),
   joint_pos={
     ".*_Joint": 0.0,
   },
