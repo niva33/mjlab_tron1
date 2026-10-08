@@ -25,6 +25,7 @@ from mjlab.tasks.velocity.velocity_env_cfg import make_velocity_env_cfg
 def bipedal_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   """Create Bipedal 12 DOF rough terrain velocity configuration."""
   cfg = make_velocity_env_cfg()
+  cfg.observations["actor"].history_length = 5
 
   cfg.sim.mujoco.ccd_iterations = 500
   cfg.sim.contact_sensor_maxmatch = 500

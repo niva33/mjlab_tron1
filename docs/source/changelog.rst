@@ -14,6 +14,8 @@ Added
 Changed
 ^^^^^^^
 
+- Set actor observation history to five frames for bipedal velocity tasks.
+
 - Bumped ``rsl-rl-lib`` from 5.5.0 to 5.5.1. This removes the need for capping
   ``wandb`` below 0.29.
 
