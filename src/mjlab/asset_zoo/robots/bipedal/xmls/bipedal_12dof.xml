@@ -1,0 +1,123 @@
+<mujoco model="bipedal">
+  <compiler angle="degree" meshdir="assets/"/>
+
+  <default>
+    <default class="bipedal_visual">
+      <geom contype="0" conaffinity="0" group="2" density="0"/>
+    </default>
+    <default class="bipedal_collision">
+      <geom group="3" rgba="0.9 0.9 0 1"/>
+    </default>
+  </default>
+
+  <!--   Fusion outputs meshes with mm units by default, but must be converted to m in MuJoCo, hence
+  the scaling   -->
+  <asset>
+    <mesh name="link0_torso" file="link0_torso.stl" scale="0.001 0.001 0.001" />
+    <mesh name="left_hip_pitch_link_v2" file="left_hip_pitch_link_v2.stl" scale="0.001 0.001 0.001" />
+    <mesh name="left_hip_roll_link" file="left_hip_roll_link.stl" scale="0.001 0.001 0.001" />
+    <mesh name="left_hip_yaw_link" file="left_hip_yaw_link.stl" scale="0.001 0.001 0.001" />
+    <mesh name="left_knee_link" file="left_knee_link.stl" scale="0.001 0.001 0.001" />
+    <mesh name="left_ankle_roll_link" file="left_ankle_roll_link.stl" scale="0.001 0.001 0.001" />
+    <mesh name="left_ankle_pitch_link" file="left_ankle_pitch_link.stl" scale="0.001 0.001 0.001" />
+    <mesh name="right_hip_pitch_link_v2" file="right_hip_pitch_link_v2.stl" scale="0.001 0.001 0.001" />
+    <mesh name="right_hip_roll_link" file="right_hip_roll_link.stl" scale="0.001 0.001 0.001" />
+    <mesh name="right_hip_yaw_link" file="right_hip_yaw_link.stl" scale="0.001 0.001 0.001" />
+    <mesh name="right_knee_link" file="right_knee_link.stl" scale="0.001 0.001 0.001" />
+    <mesh name="right_ankle_roll_link" file="right_ankle_roll_link.stl" scale="0.001 0.001 0.001" />
+    <mesh name="right_ankle_pitch_link" file="right_ankle_pitch_link.stl" scale="0.001 0.001 0.001" />
+  </asset>
+
+  <worldbody>
+    <body name="link0_torso" pos="0 0 0.80" euler="0 0 0">
+      <inertial pos="0.022E-3 0.011E-3 -9.359E-3" mass="5.721" fullinertia="1.338E-1 1.019E-1 6.278E-2 -7542.256E-9 8599.288E-9 8566.243E-9"/>
+      <freejoint name="floating_base_joint"/>
+      <geom type="mesh" class="bipedal_visual" mesh="link0_torso" />
+      <geom name="link0_torso_collision_1" class="bipedal_collision" size="0.09 0.170 0.170" pos="0 0 0.15" type="box" />
+      <site name="imu" type = "box" pos="0.0 0 0.0" euler="0 0 0" size="0.01 0.01 0.01" rgba="1 0 0 1"/>
+      <body name="left_hip_pitch_link" pos="0 89.761E-3 -81.437E-3" euler="-15 0 0"> 
+        <inertial pos="3.703E-3 49.142E-3 -49.676E-3" mass="1.953" fullinertia="4.511E-3 4.159E-3 3.315E-3 -86060.731E-9 1.258E-4 1.110E-3" />              
+        <joint name="left_hip_pitch_joint" axis="0 1 0" pos="0 0 0" range="-60 60"/>
+        <geom type="mesh" class="bipedal_visual" mesh="left_hip_pitch_link_v2" />
+        <geom name="left_hip_pitch_link_collision" class="bipedal_collision" size="0.05 0.06 0.05" pos="0 0.065 0" type="box" />
+        <body name="left_hip_roll_link" pos="0 61.114E-3 -66.874E-3" euler="15 0 0">
+          <inertial pos="0.016E-3 -0.136E-3 -73.241E-3" mass="1.2918" fullinertia="2.359E-3 3.153E-3 1.975E-3 -927.06E-9 -3429.47E-9 -927.06E-9" />
+          <joint name="left_hip_roll_joint" axis="1 0 0" pos="0 0 0" range="-45 60"/>
+          <geom type="mesh" class="bipedal_visual" mesh="left_hip_roll_link" />
+          <geom name="left_hip_roll_link_collision_1" class="bipedal_collision" size="0.05 0.04 0.04" pos="0 0 -0.105" type="box"/>
+          <body name="left_hip_yaw_link" pos="0 0 -120.5E-3" euler="0 0 0">
+            <inertial pos="-0.314E-3 -13.334E-3 -166.036E-3" mass="1.983" fullinertia="1.165E-2 1.208E-2 2.085E-3 26778.277E-9 -32964.406E-9 -9.808E-4" />
+            <joint name="left_hip_yaw_joint" axis="0 0 1" pos="0 0 0" range="-45 45"/>
+            <geom type="mesh" class="bipedal_visual" mesh="left_hip_yaw_link" />
+            <geom name="left_hip_yaw_link_collision_1" class="bipedal_collision" size="0.06 0.05 0.05" pos="0 -0.01 -0.2" type="box"/>
+            <body name="left_knee_link" pos="0 0 -203.5E-3" euler="0 0 0">
+              <inertial pos="9.7E-3 3.585E-3 -164.623E-3" mass="1.894" fullinertia="1.720E-2 1.702E-2 1.510E-3 31715.102E-9 8.973E-4 -8.846E-4" />
+              <joint name="left_knee_pitch_joint" axis="0 1 0" pos="0 0 0" range="-10 120"/>
+              <geom type="mesh" class="bipedal_visual" mesh="left_knee_link" />
+              <geom name="left_knee_link_collision_1" class="bipedal_collision" size="0.045 0.04 0.1" pos="0.01 0 -0.2" type="box" />
+              <body name="left_ankle_pitch_link" pos="0 0 -335E-3" euler="0 0 0">
+                <inertial pos="0 0 0" mass="1E-4" fullinertia="1E-10 1E-10 1E-10 0 0 0" />
+                <joint name="left_ankle_pitch_joint" axis="0 1 0" pos="0 0 0" range="-30 30"/>
+                <body name="left_ankle_roll_link" pos="0 0 0" euler="0 0 0">
+                  <inertial pos="29.106E-3 0 -30.483E-3" mass="383.542E-3" fullinertia="1.546E-4 8.770E-4 9.434E-4 -9.97E-9 50230.908E-9 40.36E-9" />
+                  <joint name="left_ankle_roll_joint" axis="1 0 0" pos="0 0 0" range="-15 15"/>
+                  <geom type="mesh" name="Left_Foot" friction="5.0 0.1 0.1" class="bipedal_visual" mesh="left_ankle_pitch_link" />
+                  <geom name="left_ankle_roll_joint_collision_1" class="bipedal_collision" type="capsule" size="0.015 0.08" pos="0.04 0 -0.034" euler="0 90 0" />
+                  <geom name="left_ankle_roll_joint_collision_2" class="bipedal_collision" type="capsule" size="0.009 0.02" pos="0.09 0.025 -0.034" euler="0 90 0" />
+                  <geom name="left_ankle_roll_joint_collision_3" class="bipedal_collision" type="capsule" size="0.009 0.02" pos="0.09 -0.025 -0.034" euler="0 90 0" />
+                  <geom name="left_ankle_roll_joint_collision_4" class="bipedal_collision" type="capsule" size="0.009 0.015" pos="-0.01 0.025 -0.034" euler="0 90 0" />
+                  <geom name="left_ankle_roll_joint_collision_5" class="bipedal_collision" type="capsule" size="0.009 0.015" pos="-0.01 -0.025 -0.034" euler="0 90 0" />
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="right_hip_pitch_link" pos="0 -89.761E-3 -81.437E-3" euler="15 0 0">
+        <inertial pos="3.822E-3 -49.04E-3 -49.628E-3" mass="1.953" fullinertia="4.535E-3 4.166E-3 3.33E-3 89505.93E-9 1.268E-9 -1.126E-3" />
+        <joint name="right_hip_pitch_joint" axis="0 1 0" pos="0 0 0" range="-60 60"/>
+        <geom type="mesh" class="bipedal_visual" mesh="right_hip_pitch_link_v2" />
+        <geom name="right_hip_pitch_link_collision_1" class="bipedal_collision" size="0.05 0.06 0.05" pos="0 -0.065 0" type="box"/>
+        <body name="right_hip_roll_link" pos="0 -61.114E-3 -66.874E-3" euler="-15 0 0">
+          <inertial pos="0.016E-3 -0.136E-3 -73.241E-3" mass="1.2918" fullinertia="2.359E-3 3.153E-3 1.975E-3 -927.06E-9 -3429.47E-9 -927.06E-9" />
+          <joint name="right_hip_roll_joint" axis="1 0 0" pos="0 0 0" ref="0" range="-60 35"/>
+          <geom type="mesh" class="bipedal_visual" mesh="right_hip_roll_link" />
+          <geom name="right_hip_roll_link_collision_1" class="bipedal_collision" size="0.05 0.04 0.04" pos="0 0 -0.105" type="box"/>
+          <body name="right_hip_yaw_link" pos="0 0 -120.5E-3" euler="0 0 0">
+            <inertial pos="-0.029E-3 13.844E-3 -165.473E-3" mass="1.983" fullinertia="1.164E-2 1.208E-2 2.009E-3 2389.96E-9 -1032.992E-9 9.596E-4" />
+            <joint name="right_hip_yaw_joint" axis="0 0 1" pos="0 0 0" range="-45 45"/>
+            <geom type="mesh" class="bipedal_visual" mesh="right_hip_yaw_link" />
+            <geom name="right_hip_yaw_link_collision_1" class="bipedal_collision" size="0.06 0.05 0.05" pos="0 0.01 -0.2" type="box"/>
+            <body name="right_knee_link" pos="0 0 -203.5E-3" euler="0 0 0">
+              <inertial pos="9.336E-3 -3.761E-3 -163.038E-3" mass="1.879" fullinertia="1.653E-2 1.633E-2 1.480E-3 -35348.501E-9 7.738E-4 8.795E-4" />
+              <joint name="right_knee_pitch_joint" axis="0 1 0" pos="0 0 0" range="-10 120"/>
+              <geom type="mesh" class="bipedal_visual" mesh="right_knee_link" />
+              <geom name="right_knee_link_collision_1" class="bipedal_collision" size="0.045 0.04 0.1" pos="0.01 0 -0.2" type="box"/>
+              <body name="right_ankle_pitch_link" pos="0 0 -335E-3" euler="0 0 0">
+                <inertial pos="0 0 0" mass="1E-4" fullinertia="1E-10 1E-10 1E-10 0 0 0" />
+                <joint name="right_ankle_pitch_joint" axis="0 1 0" pos="0 0 0" range="-30 30"/>
+                <body name="right_ankle_roll_link" pos="0 0 0" euler="0 0 0">
+                  <inertial pos="29.106E-3 0 -30.483E-3" mass="383.542E-3" fullinertia="1.546E-4 8.770E-4 9.434E-4 -9.97E-9 50230.908E-9 40.36E-9" />
+                  <joint name="right_ankle_roll_joint" axis="1 0 0" pos="0 0 0" range="-15 15"/>
+                  <geom type="mesh" name="Right_Foot" friction="5.0 0.1 0.1" class="bipedal_visual" mesh="right_ankle_pitch_link" />
+                  <geom name="right_ankle_roll_joint_collision_1" class="bipedal_collision" type="capsule" size="0.015 0.08" pos="0.04 0 -0.034" euler="0 90 0" />
+                  <geom name="right_ankle_roll_joint_collision_2" class="bipedal_collision" type="capsule" size="0.009 0.02" pos="0.09 0.025 -0.034" euler="0 90 0" />
+                  <geom name="right_ankle_roll_joint_collision_3" class="bipedal_collision" type="capsule" size="0.009 0.02" pos="0.09 -0.025 -0.034" euler="0 90 0" />
+                  <geom name="right_ankle_roll_joint_collision_4" class="bipedal_collision" type="capsule" size="0.009 0.015" pos="-0.01 0.025 -0.034" euler="0 90 0" />
+                  <geom name="right_ankle_roll_joint_collision_5" class="bipedal_collision" type="capsule" size="0.009 0.015" pos="-0.01 -0.025 -0.034" euler="0 90 0" />
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <sensor>
+    <gyro name="imu_ang_vel" site="imu"/>
+    <velocimeter name="imu_lin_vel" site="imu"/>
+    <accelerometer name="imu_lin_acc" site="imu"/>
+    <framezaxis name="imu_upvector" objtype="body" objname="world" reftype="site" refname="imu"/>
+    <subtreeangmom name="root_angmom" body="link0_torso"/>
+  </sensor>
+</mujoco>
