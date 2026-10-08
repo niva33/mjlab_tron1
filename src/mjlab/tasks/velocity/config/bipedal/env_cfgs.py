@@ -182,6 +182,7 @@ def bipedal_flat_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
 
   # Disable terrain curriculum (not present in play mode since rough clears all).
   cfg.curriculum.pop("terrain_levels", None)
+  cfg.events.pop("push_robot", None)
 
   if play:
     twist_cmd = cfg.commands["twist"]
