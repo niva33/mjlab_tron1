@@ -40,7 +40,7 @@ def bipedal_ppo_runner_cfg() -> RslRlOnPolicyRunnerCfg:
       max_grad_norm=1.0,
     ),
     experiment_name="bipedal_velocity",
-    save_interval=1000,
+    save_interval=100,
     num_steps_per_env=48,
-    max_iterations=300_000,
+    max_iterations=10_000,
   )
