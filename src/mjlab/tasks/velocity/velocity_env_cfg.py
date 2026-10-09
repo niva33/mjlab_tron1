@@ -183,15 +183,14 @@ def make_velocity_env_cfg() -> ManagerBasedRlEnvCfg:
       resampling_time_range=(3.0, 8.0),
       rel_standing_envs=0.1,
       rel_heading_envs=0.3,
-      rel_forward_envs=0.2,
+      rel_forward_envs=0.5,
       heading_command=True,
       heading_control_stiffness=0.5,
       debug_vis=True,
       ranges=UniformVelocityCommandCfg.Ranges(
         lin_vel_x=(-1.0, 1.0),
-        lin_vel_y=(-1.0, 1.0),
+        lin_vel_y=(0.0, 0.0),
         ang_vel_z=(-0.5, 0.5),
-        heading=(-math.pi, math.pi),
       ),
     )
   }
